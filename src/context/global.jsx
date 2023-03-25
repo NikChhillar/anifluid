@@ -73,6 +73,7 @@ export const GlobalContextProvider = ({ children }) => {
   useEffect(() => {
     getPopularAnime();
   }, []);
+  
   /****************************** */
   return (
     <GlobalContext.Provider
