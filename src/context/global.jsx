@@ -65,20 +65,35 @@ export const GlobalContextProvider = ({ children }) => {
       `${animeBaseUrl}/top/anime?filter=bypopularity`
     );
     const data = await response.json();
-    console.log("popular animes:");
-    console.log(data.data);
+    // console.log("popular animes:");
+    // console.log(data.data);
     dispatch({ type: GET_POPULAR_ANIME, payload: data.data });
+  };
+
+  //
+
+  //
+  const getAnimePictures = async (id) => {
+    dispatch({ type: LOADING });
+    const response = await fetch(
+      `https://api.jikan.moe/v4/characters/${id}/pictures`
+    );
+    const data = await response.json();
+    console.log(data.data);
+    dispatch({ type: GET_PICTURES, payload: data.data });
   };
 
   useEffect(() => {
     getPopularAnime();
   }, []);
-  
+
   /****************************** */
   return (
     <GlobalContext.Provider
       value={{
         ...state,
+        getPopularAnime,
+        getAnimePictures,
       }}
     >
       {children}
