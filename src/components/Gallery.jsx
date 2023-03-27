@@ -10,15 +10,18 @@ const Gallery = () => {
 
   const [index, setIndex] = useState(0);
 
+  // 
   const handleImgClick = (i) => {
     setIndex(i);
   };
 
+  // 
   useEffect(() => {
     getAnimePictures(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
+  // 
   return (
     <GalleryStyled>
       <div className="back">

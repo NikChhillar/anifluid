@@ -55,7 +55,7 @@ export const GlobalContextProvider = ({ children }) => {
   //
 
   const [state, dispatch] = useReducer(reducer, intialState);
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useState("");
 
   //
   //
@@ -71,6 +71,51 @@ export const GlobalContextProvider = ({ children }) => {
   };
 
   //
+  const handleChange = (e) => {
+    setSearch(e.target.value);
+    if (e.target.value === "") {
+      state.isSearch = false;
+    }
+  };
+
+  //
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (search) {
+      searchAnime(search);
+      state.isSearch = true;
+    } else {
+      state.isSearch = false;
+      alert("Invalid input");
+    }
+  };
+  const getUpcomingAnime = async () => {
+    dispatch({ type: LOADING });
+    const response = await fetch(`${animeBaseUrl}/top/anime?filter=upcoming`);
+    const data = await response.json();
+    // console.log(data.data);
+    dispatch({ type: GET_UPCOMING_ANIME, payload: data.data });
+  };
+
+  //
+  const getAiringAnime = async () => {
+    dispatch({ type: LOADING });
+    const response = await fetch(`${animeBaseUrl}/top/anime?filter=airing`);
+    const data = await response.json();
+    // console.log(data.data);
+    dispatch({ type: GET_AIRING_ANIME, payload: data.data });
+  };
+
+  //
+  const searchAnime = async (anime) => {
+    dispatch({ type: LOADING });
+    const response = await fetch(
+      `https://api.jikan.moe/v4/anime?q=${anime}&order_by=popularity&sort=asc&sfw`
+    );
+    const data = await response.json();
+    // console.log(data.data);
+    dispatch({ type: SEARCH, payload: data.data });
+  };
 
   //
   const getAnimePictures = async (id) => {
@@ -92,8 +137,14 @@ export const GlobalContextProvider = ({ children }) => {
     <GlobalContext.Provider
       value={{
         ...state,
+        handleChange,
+        handleSubmit,
+        search,
+        searchAnime,
         getPopularAnime,
         getAnimePictures,
+        getAiringAnime,
+        getUpcomingAnime,
       }}
     >
       {children}

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useGlobalContext } from "../context/global";
 import Airing from "./Airing";
 import Popular from "./Popular";
 import Upcoming from "./Upcoming";
@@ -7,6 +8,15 @@ import Upcoming from "./Upcoming";
 const HomePage = () => {
   //
   const [rendered, setRendered] = useState("popular");
+
+  //
+  const {
+    handleSubmit,
+    handleChange,
+    search,
+    getUpcomingAnime,
+    getAiringAnime,
+  } = useGlobalContext();
 
   const switchComponent = () => {
     switch (rendered) {
@@ -33,6 +43,51 @@ const HomePage = () => {
               : "Upcoming Animes"}
           </h1>
         </div>
+        <div className="search-container">
+          <form action="" onSubmit={handleSubmit} className="search-form">
+            <div className="input-control">
+              <input
+                type="text"
+                placeholder="Search Anime"
+                value={search}
+                onChange={handleChange}
+              />
+              <button type="submit">Search</button>
+            </div>
+          </form>
+          <div className="cat">
+            <div className="filter-btn popular-filter">
+              <button
+                onClick={() => {
+                  setRendered("popular");
+                }}
+              >
+                Popular
+              </button>
+            </div>
+
+            <div className="filter-btn airing-filter">
+              <button
+                onClick={() => {
+                  setRendered("airing");
+                  getAiringAnime();
+                }}
+              >
+                Airing
+              </button>
+            </div>
+            <div className="filter-btn upcoming-filter">
+              <button
+                onClick={() => {
+                  setRendered("upcoming");
+                  getUpcomingAnime();
+                }}
+              >
+                Upcoming
+              </button>
+            </div>
+          </div>
+        </div>
       </header>
       {switchComponent()}
     </HomepageStyled>
@@ -43,11 +98,14 @@ const HomepageStyled = styled.div`
   background-color: #ededed;
   header {
     padding: 2rem 5rem;
-    width: 60%;
+    width: 100%;
     margin: 0 auto;
     transition: all 0.4s ease-in-out;
     @media screen and (max-width: 1530px) {
-      width: 95%;
+      width: 70%;
+    }
+    @media screen and (max-width: 1000px) {
+      padding: 2rem 0;
     }
     .logo {
       display: flex;
@@ -59,7 +117,20 @@ const HomepageStyled = styled.div`
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
       gap: 1rem;
+      @media screen and (max-width: 1000px) {
+        gap: 0.5rem;
+      }
+      @media screen and (max-width: 600px) {
+        padding: 1rem;
+      }
+      .cat {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+      }
       button {
         display: flex;
         align-items: center;
@@ -73,7 +144,11 @@ const HomepageStyled = styled.div`
         transition: all 0.4s ease-in-out;
         font-family: inherit;
         border: 5px solid #e5e7eb;
+        @media screen and (max-width: 500px) {
+          padding: 0.7rem 0.7rem;
+        }
       }
+
       form {
         position: relative;
         width: 100%;

@@ -5,8 +5,11 @@ import HomePage from "./components/HomePage";
 import { useGlobalContext } from "./context/global";
 
 function App() {
+  // 
   const g = useGlobalContext();
   console.log(g);
+
+  // 
   return (
     <BrowserRouter>
       <Routes>

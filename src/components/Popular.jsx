@@ -4,12 +4,12 @@ import styled from "styled-components";
 import { useGlobalContext } from "../context/global";
 import Sidebar from "./Sidebar";
 
-const Popular = () => {
-  const { popularAnime, isSearch } = useGlobalContext();
+const Popular = ({ rendered }) => {
+  const { popularAnime, isSearch, searchResults } = useGlobalContext();
   // console.log(popularAnime);
 
   const conditionalRendering = () => {
-    if (!isSearch) {
+    if (!isSearch && rendered === "popular") {
       return popularAnime.map((anime) => {
         return (
           <Link to={`/anime/${anime.mal_id}`} key={anime.mal_id}>
@@ -19,6 +19,13 @@ const Popular = () => {
       });
     } else {
       // search results here....
+      return searchResults?.map((anime) => {
+        return (
+          <Link to={`/anime/${anime.mal_id}`} key={anime.mal_id}>
+            <img src={anime.images.jpg.large_image_url} alt="" />
+          </Link>
+        );
+      });
     }
   };
 
