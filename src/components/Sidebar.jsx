@@ -29,6 +29,9 @@ const Sidebar = () => {
 };
 
 const SidebarStyled = styled.div`
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
   margin-top: 2rem;
   background-color: #fff;
   border-top: 5px solid #e5e7eb;

@@ -44,7 +44,7 @@ const AiringStyled = styled.div`
     padding-top: 2rem;
     padding-bottom: 2rem;
     padding-left: 5rem;
-    padding-right: 0;
+    padding-right: 5rem;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
